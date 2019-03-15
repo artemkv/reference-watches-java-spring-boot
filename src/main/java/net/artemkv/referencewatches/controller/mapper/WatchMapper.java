@@ -1,6 +1,7 @@
 package net.artemkv.referencewatches.controller.mapper;
 
 import net.artemkv.referencewatches.dto.WatchDto;
+import net.artemkv.referencewatches.dto.WatchToPostDto;
 import net.artemkv.referencewatches.persistence.model.Watch;
 
 public final class WatchMapper {
@@ -18,7 +19,23 @@ public final class WatchMapper {
         watchDto.setCaseMaterial(watch.getCaseMaterial());
         watchDto.setDateCreated(watch.getDateCreated());
         watchDto.setBrand(BrandMapper.makeBrandDto(watch.getBrand()));
-        watchDto.setMovementId(watch.getMovement().getId());
+        watchDto.setMovementId(watch.getMovementId());
         return watchDto;
+    }
+
+    public static Watch makeWatch(WatchToPostDto watchDto) {
+        if (watchDto == null) {
+            return null;
+        }
+
+        Watch watch = new Watch();
+        watch.setModel(watchDto.getModel());
+        watch.setTitle(watchDto.getTitle());
+        watch.setGender(watchDto.getGender());
+        watch.setCaseSize(watchDto.getCaseSize());
+        watch.setCaseMaterial(watchDto.getCaseMaterial());
+        watch.setBrandId(watchDto.getBrandId());
+        watch.setMovementId(watchDto.getMovementId());
+        return watch;
     }
 }

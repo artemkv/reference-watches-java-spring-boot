@@ -38,12 +38,18 @@ public class Watch {
     private ZonedDateTime dateCreated = ZonedDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "brand_id", nullable = false)
+    @JoinColumn(name = "brand_id", insertable = false, updatable = false)
     private Brand brand;
 
+    @Column(name = "brand_id", nullable = false)
+    private long brandId;
+
     @ManyToOne
-    @JoinColumn(name = "movement_id", nullable = false)
+    @JoinColumn(name = "movement_id", insertable = false, updatable = false)
     private Movement movement;
+
+    @Column(name = "movement_id", nullable = false)
+    private long movementId;
 
     public long getId() {
         return id;
@@ -115,5 +121,21 @@ public class Watch {
 
     public void setMovement(Movement movement) {
         this.movement = movement;
+    }
+
+    public long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(long brandId) {
+        this.brandId = brandId;
+    }
+
+    public long getMovementId() {
+        return movementId;
+    }
+
+    public void setMovementId(long movementId) {
+        this.movementId = movementId;
     }
 }
