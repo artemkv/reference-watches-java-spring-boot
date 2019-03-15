@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface WatchService {
     Page<Watch> getWatches(Pageable pageable);
+    Watch getWatch(long id);
 }

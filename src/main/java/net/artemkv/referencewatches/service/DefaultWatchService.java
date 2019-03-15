@@ -18,4 +18,9 @@ public class DefaultWatchService implements WatchService {
     public Page<Watch> getWatches(Pageable pageable) {
         return watchRepository.findAll(pageable);
     }
+
+    @Override
+    public Watch getWatch(long id) {
+        return watchRepository.findById(id).orElse(null);
+    }
 }

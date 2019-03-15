@@ -8,9 +8,13 @@ import net.artemkv.referencewatches.persistence.model.Watch;
 import net.artemkv.referencewatches.service.WatchService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +33,7 @@ public class WatchController {
     }
 
     @GetMapping
-    public GetListResponse<WatchDto> getBrands(Pageable pageable) {
+    public GetListResponse<WatchDto> getWatches(Pageable pageable) {
         ValidatePageSize(pageable.getPageSize(), apiConfiguration.getPageSizeLimit());
 
         Page<Watch> page = watchService.getWatches(pageable);
@@ -43,5 +47,16 @@ public class WatchController {
             page.getTotalElements(),
             watches.size(),
             watches);
+    }
+
+    @GetMapping("/{id}")
+    public WatchDto getWatch(@PathVariable long id) {
+        Watch watch = watchService.getWatch(id);
+        if (watch == null) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                String.format("Watch with id %d cannot be found.", id));
+        }
+        return WatchMapper.makeWatchDto(watch);
     }
 }
