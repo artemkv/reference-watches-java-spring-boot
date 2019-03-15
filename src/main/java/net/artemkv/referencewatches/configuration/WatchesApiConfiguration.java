@@ -1,4 +1,4 @@
-package net.artemkv.referencewatches;
+package net.artemkv.referencewatches.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("classpath:watchesapi.properties")
 @ConfigurationProperties(prefix="watchesapi")
-public class WatchesApiProperties {
+public class WatchesApiConfiguration {
     private int pageSizeLimit = 1000;
 
     public int getPageSizeLimit() {

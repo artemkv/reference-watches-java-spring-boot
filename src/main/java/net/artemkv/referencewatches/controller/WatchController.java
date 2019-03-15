@@ -1,6 +1,6 @@
 package net.artemkv.referencewatches.controller;
 
-import net.artemkv.referencewatches.WatchesApiProperties;
+import net.artemkv.referencewatches.configuration.WatchesApiConfiguration;
 import net.artemkv.referencewatches.controller.mapper.WatchMapper;
 import net.artemkv.referencewatches.dto.GetListResponse;
 import net.artemkv.referencewatches.dto.WatchDto;
@@ -21,21 +21,21 @@ import java.util.stream.Collectors;
 @RequestMapping(value="api/watches")
 public class WatchController {
     private WatchService watchService;
-    private WatchesApiProperties watchesApiProperties;
+    private WatchesApiConfiguration apiConfiguration;
 
     public WatchController(WatchService watchService,
-                           WatchesApiProperties watchesApiProperties) {
+                           WatchesApiConfiguration apiConfiguration) {
         this.watchService = watchService;
-        this.watchesApiProperties = watchesApiProperties;
+        this.apiConfiguration = apiConfiguration;
     }
 
     @GetMapping
     public GetListResponse<WatchDto> getBrands(Pageable pageable) {
         if (pageable.getPageSize() < 1 ||
-            pageable.getPageSize() > watchesApiProperties.getPageSizeLimit()) {
+            pageable.getPageSize() > apiConfiguration.getPageSizeLimit()) {
             throw new ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
-                String.format("Size should be a number 1-%d", watchesApiProperties.getPageSizeLimit()));
+                String.format("Size should be a number 1-%d", apiConfiguration.getPageSizeLimit()));
         }
 
         Page<Watch> page = watchService.getWatches(pageable);
