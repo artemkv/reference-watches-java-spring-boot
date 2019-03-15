@@ -45,7 +45,19 @@ public class DefaultBrandService implements BrandService {
         if (!brandInDb.isPresent()) {
             return false;
         }
+        // TODO: Overwrites date created
         brandRepository.save(brand);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteBrand(long id) {
+        Optional<Brand> brandInDb = brandRepository.findById(id);
+        if (!brandInDb.isPresent()) {
+            return false;
+        }
+        brandRepository.deleteById(id);
         return true;
     }
 }

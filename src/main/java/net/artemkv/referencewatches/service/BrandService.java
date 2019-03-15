@@ -9,4 +9,5 @@ public interface BrandService {
     Brand getBrand(long id);
     Brand createBrand(Brand brand);
     boolean updateBrand(Brand brand);
+    boolean deleteBrand(long id);
 }
