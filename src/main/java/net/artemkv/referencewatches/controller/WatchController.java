@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -96,6 +97,17 @@ public class WatchController {
         Watch watch = WatchMapper.makeWatch(watchDto);
         boolean updated = watchService.updateWatch(watch);
         if (!updated) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                String.format("Watch with id %d cannot be found.", id));
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteWatch(@PathVariable long id) {
+        boolean removed = watchService.deleteWatch(id);
+        if (!removed) {
             throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND,
                 String.format("Watch with id %d cannot be found.", id));
