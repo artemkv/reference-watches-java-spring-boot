@@ -22,11 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static net.artemkv.referencewatches.controller.helpers.PagingValidationHelper.ValidatePageSize;
 
 @RestController
 @RequestMapping(value="api/brands")
@@ -42,12 +43,7 @@ public class BrandController {
 
     @GetMapping
     public GetListResponse<BrandDto> getBrands(Pageable pageable) {
-        if (pageable.getPageSize() < 1 ||
-            pageable.getPageSize() > apiConfiguration.getPageSizeLimit()) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                String.format("Size should be a number 1-%d", apiConfiguration.getPageSizeLimit()));
-        }
+        ValidatePageSize(pageable.getPageSize(), apiConfiguration.getPageSizeLimit());
 
         Page<Brand> page = brandService.getBrands(pageable);
         List<BrandDto> brands = page.stream()

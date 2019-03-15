@@ -8,14 +8,13 @@ import net.artemkv.referencewatches.persistence.model.Watch;
 import net.artemkv.referencewatches.service.WatchService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static net.artemkv.referencewatches.controller.helpers.PagingValidationHelper.ValidatePageSize;
 
 @RestController
 @RequestMapping(value="api/watches")
@@ -31,12 +30,7 @@ public class WatchController {
 
     @GetMapping
     public GetListResponse<WatchDto> getBrands(Pageable pageable) {
-        if (pageable.getPageSize() < 1 ||
-            pageable.getPageSize() > apiConfiguration.getPageSizeLimit()) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                String.format("Size should be a number 1-%d", apiConfiguration.getPageSizeLimit()));
-        }
+        ValidatePageSize(pageable.getPageSize(), apiConfiguration.getPageSizeLimit());
 
         Page<Watch> page = watchService.getWatches(pageable);
         List<WatchDto> watches = page.stream()
