@@ -8,4 +8,5 @@ public interface BrandService {
     Page<Brand> getBrands(Pageable pageable);
     Brand getBrand(long id);
     Brand createBrand(Brand brand);
+    boolean updateBrand(Brand brand);
 }

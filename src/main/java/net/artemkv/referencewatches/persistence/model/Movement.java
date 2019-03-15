@@ -19,13 +19,6 @@ public class Movement {
     @Column(length = 255, nullable = false)
     private String title;
 
-    @OneToMany(
-        mappedBy="movement",
-        fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL,
-        orphanRemoval=true)
-    private List<Watch> watches;
-
     public long getId() {
         return id;
     }

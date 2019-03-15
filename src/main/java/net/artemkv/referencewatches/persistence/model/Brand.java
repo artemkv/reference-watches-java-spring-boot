@@ -29,13 +29,6 @@ public class Brand {
     @Column(nullable = false)
     private ZonedDateTime dateCreated = ZonedDateTime.now();
 
-    @OneToMany(
-        mappedBy = "movement",
-        fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL,
-        orphanRemoval = true)
-    private List<Watch> watches;
-
     public long getId() {
         return id;
     }

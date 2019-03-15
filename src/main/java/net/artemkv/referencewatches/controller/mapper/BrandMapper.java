@@ -2,6 +2,7 @@ package net.artemkv.referencewatches.controller.mapper;
 
 import net.artemkv.referencewatches.dto.BrandDto;
 import net.artemkv.referencewatches.dto.BrandToPostDto;
+import net.artemkv.referencewatches.dto.BrandToPutDto;
 import net.artemkv.referencewatches.persistence.model.Brand;
 
 public final class BrandMapper {
@@ -25,6 +26,19 @@ public final class BrandMapper {
         }
 
         Brand brand = new Brand();
+        brand.setTitle(brandDto.getTitle());
+        brand.setYearFounded(brandDto.getYearFounded());
+        brand.setDescription(brandDto.getDescription());
+        return brand;
+    }
+
+    public static Brand makeBrand(BrandToPutDto brandDto) {
+        if (brandDto == null) {
+            return null;
+        }
+
+        Brand brand = new Brand();
+        brand.setId(brandDto.getId());
         brand.setTitle(brandDto.getTitle());
         brand.setYearFounded(brandDto.getYearFounded());
         brand.setDescription(brandDto.getDescription());
