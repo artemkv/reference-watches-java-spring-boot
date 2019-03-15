@@ -1,9 +1,21 @@
 package net.artemkv.referencewatches.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class BrandToPutDto {
+    @NotNull()
     private long id;
+
+    @NotNull()
+    @Size(max=255)
     private String title;
+
+    @NotNull()
     private int yearFounded;
+
+    @NotNull()
+    @Size(max=1000)
     private String description;
 
     public long getId() {

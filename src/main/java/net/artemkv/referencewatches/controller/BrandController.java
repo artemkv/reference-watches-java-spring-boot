@@ -85,7 +85,7 @@ public class BrandController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateBrand(
-        @PathVariable long id, @RequestBody BrandToPutDto brandDto) {
+        @PathVariable long id, @Valid @RequestBody BrandToPutDto brandDto) {
         if (id != brandDto.getId()) {
             throw new ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
