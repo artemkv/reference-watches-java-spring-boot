@@ -51,7 +51,6 @@ public class DefaultWatchService implements WatchService {
         if (!watchInDb.isPresent()) {
             return false;
         }
-        // TODO: Overwrites date created
         watchRepository.save(watch);
         return true;
     }

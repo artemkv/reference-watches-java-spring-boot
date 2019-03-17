@@ -34,7 +34,7 @@ public class Watch {
     @Column(nullable = false)
     private CaseMaterial caseMaterial;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private ZonedDateTime dateCreated = ZonedDateTime.now();
 
     @ManyToOne

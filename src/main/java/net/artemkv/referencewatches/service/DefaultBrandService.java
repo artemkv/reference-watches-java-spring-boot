@@ -51,7 +51,6 @@ public class DefaultBrandService implements BrandService {
         if (!brandInDb.isPresent()) {
             return false;
         }
-        // TODO: Overwrites date created
         brandRepository.save(brand);
         return true;
     }

@@ -26,7 +26,7 @@ public class Brand {
     @Column(length = 1000, nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private ZonedDateTime dateCreated = ZonedDateTime.now();
 
     public long getId() {
