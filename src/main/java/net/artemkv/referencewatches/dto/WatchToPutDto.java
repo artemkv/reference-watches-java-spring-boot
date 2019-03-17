@@ -85,7 +85,7 @@ public class WatchToPutDto {
         return brandId;
     }
 
-    public void setBrand(long brandId) {
+    public void setBrandId(long brandId) {
         this.brandId = brandId;
     }
 
