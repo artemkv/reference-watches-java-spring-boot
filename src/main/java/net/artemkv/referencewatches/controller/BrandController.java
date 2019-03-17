@@ -32,8 +32,8 @@ import static net.artemkv.referencewatches.controller.helpers.PagingValidationHe
 @RestController
 @RequestMapping(value="api/brands")
 public class BrandController {
-    private BrandService brandService;
-    private WatchesApiConfiguration apiConfiguration;
+    private final BrandService brandService;
+    private final WatchesApiConfiguration apiConfiguration;
 
     public BrandController(BrandService brandService,
                            WatchesApiConfiguration apiConfiguration) {

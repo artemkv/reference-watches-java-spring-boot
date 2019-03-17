@@ -34,8 +34,8 @@ import static net.artemkv.referencewatches.controller.helpers.PagingValidationHe
 @RestController
 @RequestMapping(value="api/watches")
 public class WatchController {
-    private WatchService watchService;
-    private WatchesApiConfiguration apiConfiguration;
+    private final WatchService watchService;
+    private final WatchesApiConfiguration apiConfiguration;
 
     public WatchController(WatchService watchService,
                            WatchesApiConfiguration apiConfiguration) {
