@@ -62,6 +62,19 @@ public class WatchControllerIntegrationTests {
     }
 
     @Test
+    public void testGetWatchNotFound() throws Exception {
+        // given
+        Mockito.when(service.getWatch(345))
+            .thenReturn(null);
+
+        // when
+        mvc.perform(get("/api/watches/345")
+            // then
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void testGetWatchesByTitle() throws Exception {
         // given
         Watch watch = TestData.getWatchSeaDweller(123L, 234L, 345L);
@@ -146,7 +159,49 @@ public class WatchControllerIntegrationTests {
     }
 
     @Test
-    public void testDeleteCar() throws Exception {
+    public void testPutWatchNotFound() throws Exception {
+        // given
+        WatchToPutDto watchIn = TestData.getWatchToPutDtoExplorer();
+        Mockito.when(service.updateWatch(org.mockito.ArgumentMatchers.any(Watch.class)))
+            .thenReturn(false);
+
+        // when
+        mvc.perform(put("/api/watches/123")
+            // then
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(watchIn)))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testPutWatchIdDoesNotMatch() throws Exception {
+        // given
+        WatchToPutDto watchIn = TestData.getWatchToPutDtoExplorer();
+
+        // when
+        mvc.perform(put("/api/watches/222")
+            // then
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(watchIn)))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testPutWatchEmptyId() throws Exception {
+        // given
+        WatchToPutDto watchIn = TestData.getWatchToPutDtoExplorer();
+        watchIn.setId(0);
+
+        // when
+        mvc.perform(put("/api/watches/0")
+            // then
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(watchIn)))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testDeleteWatch() throws Exception {
         // given
         Mockito.when(service.deleteWatch(123))
             .thenReturn(true);
@@ -156,6 +211,19 @@ public class WatchControllerIntegrationTests {
             // then
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testDeleteWatchNotFound() throws Exception {
+        // given
+        Mockito.when(service.deleteWatch(123))
+            .thenReturn(false);
+
+        // when
+        mvc.perform(delete("/api/watches/123")
+            // then
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
     }
 
     public static String asJsonString(final Object obj) {
