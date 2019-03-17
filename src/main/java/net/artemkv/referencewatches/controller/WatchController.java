@@ -7,6 +7,7 @@ import net.artemkv.referencewatches.dto.GetListResponse;
 import net.artemkv.referencewatches.dto.WatchDto;
 import net.artemkv.referencewatches.dto.WatchToPostDto;
 import net.artemkv.referencewatches.dto.WatchToPutDto;
+import net.artemkv.referencewatches.persistence.model.Gender;
 import net.artemkv.referencewatches.persistence.model.Watch;
 import net.artemkv.referencewatches.service.WatchService;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -44,10 +46,14 @@ public class WatchController {
     }
 
     @GetMapping
-    public GetListResponse<WatchDto> getWatches(Pageable pageable) {
+    public GetListResponse<WatchDto> getWatches(
+        @RequestParam(defaultValue = "") String title,
+        @RequestParam(defaultValue = "MENS") Gender gender,
+        @RequestParam(defaultValue = "") String brandTitle,
+        Pageable pageable) {
         ValidatePageSize(pageable.getPageSize(), apiConfiguration.getPageSizeLimit());
 
-        Page<Watch> page = watchService.getWatches(pageable);
+        Page<Watch> page = watchService.getWatches(title, gender, brandTitle, pageable);
         List<WatchDto> watches = page.stream()
             .map(WatchMapper::makeWatchDto)
             .collect(Collectors.toList());

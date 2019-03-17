@@ -1,7 +1,12 @@
 package net.artemkv.referencewatches.service;
 
+import net.artemkv.referencewatches.persistence.model.Gender;
 import net.artemkv.referencewatches.persistence.model.Watch;
 import net.artemkv.referencewatches.persistence.repository.WatchRepository;
+import net.artemkv.referencewatches.specifications.ComparableSpecification;
+import net.artemkv.referencewatches.specifications.WatchWithBrandWithTitle;
+import net.artemkv.referencewatches.specifications.WatchWithGender;
+import net.artemkv.referencewatches.specifications.WatchWithTitle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,8 +26,13 @@ public class DefaultWatchService implements WatchService {
     }
 
     @Override
-    public Page<Watch> getWatches(Pageable pageable) {
-        return watchRepository.findAll(pageable);
+    public Page<Watch> getWatches(
+        String title, Gender gender, String brandTitle, Pageable pageable) {
+        ComparableSpecification<Watch> spec = new ComparableSpecification<Watch>()
+            .where(new WatchWithTitle(title))
+            .and(new WatchWithGender(gender))
+            .and(new WatchWithBrandWithTitle(brandTitle));
+        return watchRepository.findAll(spec, pageable);
     }
 
     @Override
